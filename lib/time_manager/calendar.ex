@@ -20,16 +20,32 @@ defmodule TimeManager.Calendar do
   def list_events(params \\ %{}) do
     Event
     |> filter_from_date(params)
+    |> order_by(^filter_order_by(params[:order_by]))
     |> Repo.all()
   end
 
-  def filter_from_date(query, %{from: from}) do
+  defp filter_from_date(query, %{from: from}) do
     from(
       event in query,
       where: event.end >= ^from
     )
   end
-  def filter_from_date(query, _), do: query 
+  defp filter_from_date(query, _), do: query 
+
+
+  defp filter_order_by("title"),
+    do: [desc: dynamic([e], e.title)]
+  defp filter_order_by("title_asc"),
+    do: [asc: dynamic([e], e.title)]
+
+  defp filter_order_by("start"),
+    do: [desc: dynamic([e], e.start)]
+  
+  defp filter_order_by("start_asc"),
+    do: [asc: dynamic([e], e.start)]
+  
+  defp filter_order_by(_),
+    do: filter_order_by("start_asc")
 
   @doc """
   Gets a single event.

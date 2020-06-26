@@ -9,6 +9,7 @@ defmodule TimeManagerWeb.Schema do
     @desc "Get all events"
     field :events, list_of(:event) do
       arg :from, :naive_datetime
+      arg :order_by, :string
       resolve &Resolvers.Content.list_events/3
     end
   end
