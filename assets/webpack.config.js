@@ -16,7 +16,7 @@ module.exports = (env, options) => {
       ]
     },
     entry: {
-      'admin': './js/admin/app.js',
+      'admin': './js/admin.js',
       'app': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
     },
     output: {
@@ -37,9 +37,10 @@ module.exports = (env, options) => {
         {
           test: /\.[s]?css$/,
           use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
+            MiniCssExtractPlugin.loader, 
+            "css-loader", 
             'sass-loader',
+            "postcss-loader"
           ],
         }
       ]

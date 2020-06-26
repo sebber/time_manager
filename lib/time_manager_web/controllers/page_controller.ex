@@ -6,6 +6,8 @@ defmodule TimeManagerWeb.PageController do
   end
 
   def admin(conn, _params) do
-    render(conn, "admin.html")
+    conn
+    |> put_layout({TimeManagerWeb.LayoutView, "spa.html"})
+    |> render("admin.html")
   end
 end
