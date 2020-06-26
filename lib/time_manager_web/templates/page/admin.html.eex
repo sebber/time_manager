@@ -1,0 +1,2 @@
+<div id="root"></div>
+<script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/admin.js") %>"></script>

@@ -16,6 +16,7 @@ module.exports = (env, options) => {
       ]
     },
     entry: {
+      'admin': './js/admin/app.js',
       'app': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
     },
     output: {
@@ -45,7 +46,7 @@ module.exports = (env, options) => {
     },
     plugins: [
       new MiniCssExtractPlugin({ filename: '../css/app.css' }),
-      new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
+      new CopyWebpackPlugin({ patterns: [{ from: 'static/', to: '../' }]})
     ]
   }
 };

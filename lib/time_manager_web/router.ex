@@ -17,6 +17,8 @@ defmodule TimeManagerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/admin", PageController, :admin
+
     resources "/events", EventController
   end
 
