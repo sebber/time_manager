@@ -17,10 +17,13 @@ defmodule TimeManagerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/admin", PageController, :admin
-    get "/admin/:sparoute", PageController, :admin
-
     resources "/events", EventController
+  end
+
+  scope "/admin", TimeManagerWeb do
+    pipe_through :browser
+
+    get "/*path", PageController, :admin
   end
 
   # Other scopes may use custom stacks.
