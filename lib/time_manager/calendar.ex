@@ -20,6 +20,7 @@ defmodule TimeManager.Calendar do
   def list_events(params \\ %{}) do
     Event
     |> filter_from_date(params)
+    |> filter_to_date(params)
     |> order_by(^filter_order_by(params[:order_by]))
     |> Repo.all()
   end
@@ -30,7 +31,15 @@ defmodule TimeManager.Calendar do
       where: event.end >= ^from
     )
   end
-  defp filter_from_date(query, _), do: query 
+  defp filter_from_date(query, _), do: query
+
+  defp filter_to_date(query, %{to: to}) do
+    from(
+      event in query,
+      where: event.start <= ^to
+    )
+  end
+  defp filter_to_date(query, _), do: query 
 
 
   defp filter_order_by("title"),
