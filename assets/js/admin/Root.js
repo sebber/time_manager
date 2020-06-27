@@ -3,7 +3,7 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  Link
+  NavLink as Link,
 } from "react-router-dom";
 import { ApolloProvider } from '@apollo/react-hooks';
 import Home from './screens/Home';
@@ -14,12 +14,14 @@ export default function Root() {
   return (
     <ApolloProvider client={gqlClient}>
       <BrowserRouter basename="/admin">
-        <div>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/events">Events</Link>
-          </nav>
-          <div>
+        <div className="w-screen h-screen">
+          <div className="bg-indigo-600 flex flex-row justify-center">
+            <nav className="container max-w-2xl flex flex-row justify-between">
+              <NavLink to="/" exact>Home</NavLink>
+              <NavLink to="/events">Events</NavLink>
+            </nav>
+          </div>
+          <div className="container mx-auto max-w-2xl py-4">
             <Switch>
               <Route path="/events">
                 <Events />
@@ -34,3 +36,11 @@ export default function Root() {
     </ApolloProvider>
   )
 };
+
+function NavLink({ to, children, ...props }) {
+  return (
+    <Link to={to} className="text-white p-2 my-2 rounded-sm" activeClassName="bg-indigo-700" {...props}>
+      {children}
+    </Link>
+  );
+}
