@@ -18,6 +18,7 @@ defmodule TimeManagerWeb.Router do
 
     get "/", PageController, :index
     get "/admin", PageController, :admin
+    get "/admin/:sparoute", PageController, :admin
 
     resources "/events", EventController
   end
