@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { parse } from 'date-fns';
+import { gql } from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+const CREATE_EVENT = gql`
+mutation CreateEvent($title: String!, $start: NaiveDateTime!, $end: NaiveDateTime!) {
+  createEvent(title: $title, start: $start, end: $end) {
+    id
+    title
+    start
+    end
+  }
+}`;
 
 function useQueryDate() {
   const datestring = new URLSearchParams(useLocation().search).get("date");
@@ -17,20 +29,31 @@ function useQueryDate() {
 }
 
 export default function CreateEvent() {
+  const history = useHistory();
+  const [createEvent, { data }] = useMutation(CREATE_EVENT, {
+    onCompleted: () => {
+      history.push('/events');
+    }
+  });
   const defaultFromDate = useQueryDate() || new Date();
   const defaultToDate = useQueryDate() || new Date();
-  const { register, handleSubmit, setValue, watch, errors } = useForm();
-  const onSubmit = data => console.log(data);
-
-  console.log(watch("title"));
-  console.log(watch("start"));
-  console.log(watch("end"));
-
+  const { register, unregister, handleSubmit, setValue, errors } = useForm();
   useEffect(() => {
     register({ name: "start" }, { required: true });
     register({ name: "end" }, { required: true });
-  }, []);
+    return () => {
+      unregister({ name: "start" });
+      unregister({ name: "end" });
+    }
+  }, [register]);
 
+  const onSubmit = data => {
+    createEvent({ variables: data });
+  }
+
+  if (errors) {
+    console.log(errors);
+  }
 
   return (
     <div>
@@ -54,7 +77,7 @@ export default function CreateEvent() {
         </div>
 
         <div>
-          <button type="submit">Create</button>
+          <input type="submit" />
         </div>
       </form>
     </div>
