@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { format, parseISO, formatISO, startOfDay, endOfDay } from 'date-fns';
+import { format, parse, parseISO, formatISO, startOfDay, endOfDay } from 'date-fns';
 import WeekPicker from '../components/WeekPicker';
 import { Link } from "react-router-dom";
 
@@ -39,7 +39,7 @@ export default function Events() {
         {!loading && !error && data.events.length <= 0 && (
           <div className="my-2">There seems to be no events this day</div>
         )}
-        <NewEventPoof />
+        <NewEventPoof date={date} />
       </div>
     </div>
   );
@@ -54,10 +54,14 @@ function Event({ event }) {
   )
 }
 
-function NewEventPoof() {
+function NewEventPoof({ date }) {
+  const href = date
+    ? `/events/create?date=${format(date, 'yyyy-MM-dd')}`
+    : '/events/create';
+
   return (
     <div className="text-md text-indigo-600">
-      <Link to="/events/create">Create a new event</Link>
+      <Link to={href}>Create a new event</Link>
     </div>
   )
 }
