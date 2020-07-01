@@ -8,6 +8,10 @@ import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import PageLayout from '../layouts/Page';
+import PageHeader from '../components/PageHeader';
+import PageTitle from '../components/PageTitle';
+
 const CREATE_EVENT = gql`
 mutation CreateEvent($title: String!, $start: NaiveDateTime!, $end: NaiveDateTime!) {
   createEvent(title: $title, start: $start, end: $end) {
@@ -56,8 +60,12 @@ export default function CreateEvent() {
   }
 
   return (
-    <div>
-      <h1>New event</h1>
+    <PageLayout>
+      <PageHeader>
+        <PageTitle>New Event</PageTitle>
+        <button className="text-md text-indigo-600" type="button" onClick={() => history.goBack()}>Go back</button>
+      </PageHeader>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Label>Title</Label>
@@ -76,11 +84,11 @@ export default function CreateEvent() {
           </div>
         </div>
 
-        <div>
-          <input type="submit" />
+        <div className="py-4">
+          <button type="submit" className="hover:text-indigo-700">Create event</button>
         </div>
       </form>
-    </div>
+    </PageLayout>
   );
 }
 
