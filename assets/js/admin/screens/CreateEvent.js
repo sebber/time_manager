@@ -19,12 +19,12 @@ function useQueryDate() {
     return date;
   }
 
-  return null;
+  return new Date();
 }
 
 export default function CreateEvent() {
-  const defaultFromDate = useQueryDate() || new Date();
-  const defaultToDate = useQueryDate() || new Date();
+  const defaultFromDate = useQueryDate();
+  const defaultToDate = useQueryDate();
   const history = useHistory();
   const [createEvent, { data }] = useMutation(
     CREATE_EVENT,
@@ -72,7 +72,8 @@ export default function CreateEvent() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Label>Title</Label>
-          <TextInput type="text" name="title" ref={register} />
+          <TextInput type="text" name="title" ref={register({ required: true })} />
+          {errors.title && 'Title is required.'}
         </div>
 
         <div className="mt-4 flex flex-row justify-between">
@@ -88,7 +89,7 @@ export default function CreateEvent() {
         </div>
 
         <div className="py-4">
-          <button type="submit" className="hover:text-indigo-700">Create event</button>
+          <button type="submit" className="py-1 px-4 bg-green-500 text-white hover:bg-green-600 rounded-full">Create event</button>
         </div>
       </form>
     </PageLayout>
