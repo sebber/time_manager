@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
+import React, { useState, useMemo } from 'react';
+import { useQuery } from '@apollo/client';
 import { Link } from "react-router-dom";
 import { format, parse, parseISO, formatISO, startOfDay, endOfDay } from 'date-fns';
 import WeekPicker from '../components/WeekPicker';
 import PageLayout from '../layouts/Page';
 import PageHeader from '../components/PageHeader';
 import PageTitle from '../components/PageTitle';
+import { EVENTS } from '../gql';
+import useQueryStringState from '../hooks/useQueryStringState';
 
-const EVENTS = gql`
-  query Events($from: NaiveDateTime!, $to: NaiveDateTime!) {
-    events(from: $from, to: $to) {
-      id
-      title
-      start
-      end
-    }
-  }
-`;
+function useQueryStringDate() {
+  const [qsDate, setDate] = useQueryStringState('date');
+  const date = useMemo(
+    () => qsDate ? startOfDay(parseISO(qsDate)) : startOfDay(new Date()),
+    [qsDate]
+  );
+
+  return [date, val => setDate(formatISO(val, { representation: 'date' }))];
+}
 
 export default function Events() {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useQueryStringDate();
 
   const { loading, error, data } = useQuery(EVENTS, {
     variables: {
-      from: formatISO(startOfDay(date)),
+      from: formatISO(date),
       to: formatISO(endOfDay(date)),
     },
   });

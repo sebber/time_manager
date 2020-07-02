@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { useForm } from 'react-hook-form';
-import { parse } from 'date-fns';
-import { gql } from 'apollo-boost';
-import { useMutation } from '@apollo/react-hooks';
+import { format, parse, parseISO, formatISO, startOfDay, endOfDay } from 'date-fns';
+import { useMutation } from '@apollo/client';
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,16 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PageLayout from '../layouts/Page';
 import PageHeader from '../components/PageHeader';
 import PageTitle from '../components/PageTitle';
-
-const CREATE_EVENT = gql`
-mutation CreateEvent($title: String!, $start: NaiveDateTime!, $end: NaiveDateTime!) {
-  createEvent(title: $title, start: $start, end: $end) {
-    id
-    title
-    start
-    end
-  }
-}`;
+import { EVENTS, CREATE_EVENT } from '../gql';
 
 function useQueryDate() {
   const datestring = new URLSearchParams(useLocation().search).get("date");
@@ -33,14 +23,31 @@ function useQueryDate() {
 }
 
 export default function CreateEvent() {
-  const history = useHistory();
-  const [createEvent, { data }] = useMutation(CREATE_EVENT, {
-    onCompleted: () => {
-      history.push('/events');
-    }
-  });
   const defaultFromDate = useQueryDate() || new Date();
   const defaultToDate = useQueryDate() || new Date();
+  const history = useHistory();
+  const [createEvent, { data }] = useMutation(
+    CREATE_EVENT,
+    {
+      update: (cache, { data: { createEvent }}) => {
+        const query = {
+          query: EVENTS,
+          variables: {
+            from: formatISO(startOfDay(defaultFromDate)),
+            to: formatISO(endOfDay(defaultToDate)),
+          }
+        };
+        const { events } = cache.readQuery(query);
+        cache.writeQuery({
+          ...query,
+          data: { events: events.concat([createEvent]) },
+        });
+      },
+      onCompleted: () => {
+        history.push('/events');
+      }
+    }
+  );
   const { register, unregister, handleSubmit, setValue, errors } = useForm();
   useEffect(() => {
     register({ name: "start" }, { required: true });
@@ -53,10 +60,6 @@ export default function CreateEvent() {
 
   const onSubmit = data => {
     createEvent({ variables: data });
-  }
-
-  if (errors) {
-    console.log(errors);
   }
 
   return (

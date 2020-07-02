@@ -5,7 +5,7 @@ import {
   Route,
   NavLink as Link,
 } from "react-router-dom";
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import { FaCalendarAlt, FaHome } from 'react-icons/fa';
 import Home from './screens/Home';
 import Events from './screens/Events';
