@@ -4,7 +4,7 @@ import PageTitle from '../components/PageTitle';
 
 export default function Page({ title, children }) {
   return (
-    <div className="bg-white shadow-sm flex-col px-8 py-4">
+    <div className="bg-white shadow-sm flex-col px-8 py-4 rounded-sm">
       {title && (
         <PageHeader>
           <PageTitle>
