@@ -7,10 +7,10 @@ import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import PageLayout from '../layouts/Page';
-import PageHeader from '../components/PageHeader';
-import PageTitle from '../components/PageTitle';
-import { EVENTS, CREATE_EVENT } from '../gql';
+import PageLayout from '../../layouts/Page';
+import PageHeader from '../../components/PageHeader';
+import PageTitle from '../../components/PageTitle';
+import { EVENTS, CREATE_EVENT } from '../../gql';
 
 function useQueryDate() {
   const datestring = new URLSearchParams(useLocation().search).get("date");

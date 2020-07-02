@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import PageLayout from '../layouts/Page';
 
-export default function Home() {
+export default function Profile() {
   return (
-    <PageLayout title="Home">
-      Home
+    <PageLayout title="Profile">
+      Profile
     </PageLayout>
   );
 }

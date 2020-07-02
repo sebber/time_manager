@@ -2,12 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 import { Link } from "react-router-dom";
 import { format, parse, parseISO, formatISO, startOfDay, endOfDay } from 'date-fns';
-import WeekPicker from '../components/WeekPicker';
-import PageLayout from '../layouts/Page';
-import PageHeader from '../components/PageHeader';
-import PageTitle from '../components/PageTitle';
-import { EVENTS } from '../gql';
-import useQueryStringState from '../hooks/useQueryStringState';
+import WeekPicker from '../../components/WeekPicker';
+import PageLayout from '../../layouts/Page';
+import PageHeader from '../../components/PageHeader';
+import PageTitle from '../../components/PageTitle';
+import { EVENTS } from '../../gql';
+import useQueryStringState from '../../hooks/useQueryStringState';
 
 function useQueryStringDate() {
   const [qsDate, setDate] = useQueryStringState('date');

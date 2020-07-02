@@ -6,10 +6,10 @@ import {
   NavLink as Link,
 } from "react-router-dom";
 import { ApolloProvider } from '@apollo/client';
-import { FaCalendarAlt, FaHome } from 'react-icons/fa';
+import { FaCalendarAlt, FaHome, FaIdBadge } from 'react-icons/fa';
 import Home from './screens/Home';
 import Events from './screens/Events';
-import CreateEvent from './screens/CreateEvent';
+import Profile from './screens/Profile';
 import gqlClient from './gqlClient';
 
 export default function Root() {
@@ -21,15 +21,16 @@ export default function Root() {
             <nav className="container max-w-2xl flex flex-row justify-center">
               <NavLink to="/" exact><FaHome className="mr-1" />Home</NavLink>
               <NavLink to="/events"><FaCalendarAlt className="mr-1" /> Events</NavLink>
+              <NavLink to="/profile"><FaIdBadge className="mr-1" /> Profile</NavLink>
             </nav>
           </div>
           <div className="container mx-auto max-w-4xl">
             <Switch>
-              <Route path="/events/create">
-                <CreateEvent />
-              </Route>
-              <Route exact path="/events">
+              <Route path="/events">
                 <Events />
+              </Route>
+              <Route exact path="/profile">
+                <Profile />
               </Route>
               <Route path="/">
                 <Home />
@@ -44,7 +45,7 @@ export default function Root() {
 
 function NavLink({ to, children, ...props }) {
   return (
-    <Link to={to} className="p-3 rounded-sm text-lg font-bold flex flex-row items-center" activeClassName="text-indigo-700" {...props}>
+    <Link to={to} className="p-3 mx-2 rounded-sm text-lg font-bold flex flex-row items-center" activeClassName="text-indigo-700" {...props}>
       {children}
     </Link>
   );
