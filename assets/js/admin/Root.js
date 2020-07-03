@@ -6,10 +6,17 @@ import {
   NavLink as Link,
 } from "react-router-dom";
 import { ApolloProvider } from '@apollo/client';
-import { FaCalendarAlt, FaHome, FaIdBadge } from 'react-icons/fa';
-import Home from './screens/Home';
-import Events from './screens/Events';
-import Profile from './screens/Profile';
+import {
+  FaCalendarAlt,
+  FaHome,
+  FaIdBadge,
+  FaComments,
+} from 'react-icons/fa';
+
+import Chat from './pages/Chat';
+import Events from './pages/Events';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
 import gqlClient from './gqlClient';
 
 export default function Root() {
@@ -19,13 +26,17 @@ export default function Root() {
         <div className="w-screen h-screen bg-indigo-100">
           <div className="flex flex-row justify-center">
             <nav className="container max-w-2xl flex flex-row justify-center">
-              <NavLink to="/" exact><FaHome className="mr-1" />Home</NavLink>
-              <NavLink to="/events"><FaCalendarAlt className="mr-1" /> Events</NavLink>
-              <NavLink to="/profile"><FaIdBadge className="mr-1" /> Profile</NavLink>
+              <NavLink to="/" exact><FaHome className="mr-2" />Home</NavLink>
+              <NavLink to="/chat"><FaComments className="mr-2" /> Chat</NavLink>
+              <NavLink to="/events"><FaCalendarAlt className="mr-2" /> Events</NavLink>
+              <NavLink to="/profile"><FaIdBadge className="mr-2" /> Profile</NavLink>
             </nav>
           </div>
           <div className="container mx-auto max-w-4xl">
             <Switch>
+              <Route path="/chat">
+                <Chat />
+              </Route>
               <Route path="/events">
                 <Events />
               </Route>
