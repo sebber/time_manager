@@ -1,0 +1,8 @@
+<%= if @current_user do %>
+  <span class="p-3 mx-2 rounded-sm text-lg font-bold flex flex-row items-center"><%= @current_user.email %></span>
+  <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "p-3 mx-2 rounded-sm text-lg font-bold flex flex-row items-center" %>
+  <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "p-3 mx-2 rounded-sm text-lg font-bold flex flex-row items-center" %>
+<% else %>
+  <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "p-3 mx-2 rounded-sm text-lg font-bold flex flex-row items-center" %>
+  <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "p-3 mx-2 rounded-sm text-lg font-bold flex flex-row items-center" %>
+<% end %>
