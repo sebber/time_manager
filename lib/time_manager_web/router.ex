@@ -12,6 +12,10 @@ defmodule TimeManagerWeb.Router do
     plug :fetch_current_user
   end
 
+  pipeline :auth do
+    plug :require_authenticated_user
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -24,7 +28,7 @@ defmodule TimeManagerWeb.Router do
   end
 
   scope "/admin", TimeManagerWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
 
     get "/*path", PageController, :admin
   end
@@ -34,16 +38,12 @@ defmodule TimeManagerWeb.Router do
   #   pipe_through :api
   # end
 
-
   scope "/api" do
     pipe_through :api
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL,
-      schema: TimeManagerWeb.Schema
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: TimeManagerWeb.Schema
 
-    forward "/", Absinthe.Plug,
-      schema: TimeManagerWeb.Schema
-
+    forward "/", Absinthe.Plug, schema: TimeManagerWeb.Schema
   end
 
   # Enables LiveDashboard only for development
