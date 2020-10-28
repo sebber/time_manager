@@ -40,7 +40,7 @@ defmodule TimeManager.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.2.6"},
+      {:phoenix_live_dashboard, "~> 0.3.4"},
       {:telemetry_metrics, "~> 0.5.0"},
       {:telemetry_poller, "~> 0.5.1"},
       {:gettext, "~> 0.18.0"},
