@@ -48,7 +48,7 @@ defmodule TimeManager.MixProject do
       {:plug_cowboy, "~> 2.3"},
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
-      {:phx_gen_auth, "~> 0.4.0", only: [:dev], runtime: false}
+      {:phx_gen_auth, "~> 0.6.0", only: [:dev], runtime: false}
     ]
   end
 
